@@ -14,23 +14,38 @@
         <!-- Adiciona o Título "Lista de Contatos"-->
         <h3>{{app}}</h3>
         <!-- Cria a tabela para exibição da lista de contatos-->
-        <table class="table">
+        <table ng-show="contatos.length > 0" class="table">
             <tr>
+                <th></th>
                 <th>Nome</th>
                 <th>Telefone</th>
+                <th>Operadora</th>
+                <th></th>
             </tr>
-            <!--Faz a iteração no array de contatos para adicioná-los a cada linha da tabela-->
-            <tr ng-repeat="contato in contatos">
+            <!--Faz a iteração no array de contatos para adicioná-los a cada linha da tabela
+                e Cria um estilo para quando uma linha específica for selecionada-->
+            <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+                <td><input type="checkbox" ng-model="contato.selecionado"/></td>
                 <td>{{contato.nome}}</td>
                 <td>{{contato.telefone}}</td>
+                <td>{{contato.operadora.nome}}</td>
+                <td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
             </tr>
         </table>
         </hr>
         <!--Cria os campos de entrada de Nome e Telefone do contato-->
         <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/>
         <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/>
-        <!--Cria o botão para adição do contato-->
-        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar Contato</button>
+        <!--Cria a caixa para seleção da operadora exibindo apenas o nome da operadora-->
+        <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+            <option value="">Selecione uma Operadora</option>
+        </select>
+        <!--Cria o botão para adição do contato desabilitado quando os campos não estão preenchidos-->
+        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+        <!--Cria o botão para deletar contatos desabilitado quando os contatos não estão selecionados-->
+        <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-hide="!isContatoSelecionado(contatos)">Apagar Contatos</button>
     </div>
+    <!--Inclui o Rodapé da página dinamicamente-->
+    <div ng-include="'footer.html'"></div>
 </body>
 </html>
