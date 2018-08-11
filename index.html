@@ -4,11 +4,12 @@
     <title>Lista Telefonica</title>
     <!--Importações de folhas de estilos do projeto-->
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="lib/css/styleindex.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
     <!--Importações de arquivos javascripts do projeto-->
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-messages.js"></script>
-    <script src="lib/js/index.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/listaTelefonicaCtrl.js"></script>
 </head>
 <!-- Cria um novo escopo e disponibiliza como um parâmetro injetável para a função Controller-->
 <body ng-controller="listaTelefonicaCtrl">
@@ -68,6 +69,6 @@
         <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-hide="!isContatoSelecionado(contatos)">Apagar Contatos</button>
     </div>
     <!--Inclui o Rodapé da página dinamicamente-->
-    <div ng-include="'footer.html'"></div>
+    <div ng-include="'view/footer.html'"></div>
 </body>
 </html>
