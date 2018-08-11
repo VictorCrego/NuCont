@@ -11,8 +11,26 @@
 <!-- Cria um novo escopo e disponibiliza como um parâmetro injetável para a função Controller-->
 <body ng-controller="listaTelefonicaCtrl">
     <div class="jumbotron">
+        <!-- Adiciona o Título "Lista de Contatos"-->
         <h3>{{app}}</h3>
-
+        <!-- Cria a tabela para exibição da lista de contatos-->
+        <table class="table">
+            <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+            </tr>
+            <!--Faz a iteração no array de contatos para adicioná-los a cada linha da tabela-->
+            <tr ng-repeat="contato in contatos">
+                <td>{{contato.nome}}</td>
+                <td>{{contato.telefone}}</td>
+            </tr>
+        </table>
+        </hr>
+        <!--Cria os campos de entrada de Nome e Telefone do contato-->
+        <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/>
+        <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/>
+        <!--Cria o botão para adição do contato-->
+        <button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)">Adicionar Contato</button>
     </div>
 </body>
 </html>
