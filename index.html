@@ -15,23 +15,26 @@
     <div class="jumbotron">
         <!-- Adiciona o Título "Lista de Contatos"-->
         <h3>{{app}}</h3>
+        <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="O que você está buscando?"/>
         <!-- Cria a tabela para exibição da lista de contatos-->
         <table ng-show="contatos.length > 0" class="table">
             <tr>
                 <th></th>
-                <th>Nome</th>
-                <th>Telefone</th>
+                <th><a href="" ng-click="ordenarPor('nome')">Nome</a></th>
+                <th><a href="" ng-click="ordenarPor('telefone')">Telefone</a></th>
                 <th>Operadora</th>
                 <th></th>
+                <th>Data</th>
             </tr>
             <!--Faz a iteração no array de contatos para adicioná-los a cada linha da tabela
                 e Cria um estilo para quando uma linha específica for selecionada-->
-            <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+            <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
                 <td><input type="checkbox" ng-model="contato.selecionado"/></td>
-                <td>{{contato.nome}}</td>
+                <td>{{contato.nome | uppercase}}</td>
                 <td>{{contato.telefone}}</td>
                 <td>{{contato.operadora.nome}}</td>
                 <td><div style="width: 20px; height: 20px;" ng-style="{'background-color': contato.cor}"></div></td>
+                <td>{{contato.data | date:'dd/MM/yyyy'}}</td>
             </tr>
         </table>
         </hr>
@@ -41,11 +44,11 @@
             <input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" ng-minlength="10"/>
             <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/"/>
             <!--Cria a caixa para seleção da operadora exibindo apenas o nome da operadora-->
-            <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+            <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy:'nome'">
                 <option value="">Selecione uma Operadora</option>
             </select>
         </form>
-        <div ng-messages="contatoForm.nome.$error" class="alert alert-danger">
+        <div ng-show="contatoForm.nome.$dirty" ng-messages="contatoForm.nome.$error" class="alert alert-danger">
             <div ng-message="required">
                 Por favor, Preencha o nome!
             </div>
